@@ -20,11 +20,7 @@ const onButton = document.querySelector("#on");
 const startButton = document.querySelector("#start");
 
 strictButton.addEventListener('click', (event) => {
-  if (strictButton.checked == true) {
-    strict = true;
-  } else {
-    strict = false;
-  }
+  strict = strictButton.checked;
 });
 
 onButton.addEventListener('click', (event) => {
@@ -54,11 +50,13 @@ function play() {
   turn = 1;
   turnCounter.innerHTML = 1;
   good = true;
-  for (var i = 0; i < 20; i++) {
+  
+  // Create a sequence of 25 moves instead of 20
+  for (let i = 0; i < 25; i++) {
     order.push(Math.floor(Math.random() * 4) + 1);
   }
+  
   compTurn = true;
-
   intervalId = setInterval(gameTurn, 800);
 }
 
@@ -139,7 +137,7 @@ topLeft.addEventListener('click', (event) => {
     playerOrder.push(1);
     check();
     one();
-    if(!win) {
+    if (!win) {
       setTimeout(() => {
         clearColor();
       }, 300);
@@ -152,7 +150,7 @@ topRight.addEventListener('click', (event) => {
     playerOrder.push(2);
     check();
     two();
-    if(!win) {
+    if (!win) {
       setTimeout(() => {
         clearColor();
       }, 300);
@@ -165,7 +163,7 @@ bottomLeft.addEventListener('click', (event) => {
     playerOrder.push(3);
     check();
     three();
-    if(!win) {
+    if (!win) {
       setTimeout(() => {
         clearColor();
       }, 300);
@@ -178,7 +176,7 @@ bottomRight.addEventListener('click', (event) => {
     playerOrder.push(4);
     check();
     four();
-    if(!win) {
+    if (!win) {
       setTimeout(() => {
         clearColor();
       }, 300);
@@ -187,14 +185,16 @@ bottomRight.addEventListener('click', (event) => {
 })
 
 function check() {
-  if (playerOrder[playerOrder.length - 1] !== order[playerOrder.length - 1])
+  if (playerOrder[playerOrder.length - 1] !== order[playerOrder.length - 1]) {
     good = false;
+  }
 
-  if (playerOrder.length == 3 && good) {
+  // Change the win condition to 25 moves
+  if (playerOrder.length == 25 && good) {
     winGame();
   }
 
-  if (good == false) {
+  if (!good) {
     flashColor();
     turnCounter.innerHTML = "NO!";
     setTimeout(() => {
@@ -223,7 +223,6 @@ function check() {
     turnCounter.innerHTML = turn;
     intervalId = setInterval(gameTurn, 800);
   }
-
 }
 
 function winGame() {
@@ -232,9 +231,3 @@ function winGame() {
   on = false;
   win = true;
 }
-
-
-
-
-
-
